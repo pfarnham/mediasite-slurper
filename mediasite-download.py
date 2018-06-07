@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # (c) 2015 GPL SvenK
 
-# This is Python Python3 compatible.
+# This is Python >2.7 with some Python3 compatibility.
 from __future__ import print_function
 def printerr(*objs): print(*objs, file=sys.stderr)
 
