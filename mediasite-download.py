@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # (c) 2015 GPL SvenK
 
-# This is Python >2.7 with some Python3 compatibility.
+# This is Python Python3 compatible.
 from __future__ import print_function
 def printerr(*objs): print(*objs, file=sys.stderr)
 
@@ -10,8 +10,9 @@ from requests import get, post
 from pyquery import PyQuery as pq
 
 # python builtin
-from urlparse import urlparse
-import urllib2
+from urllib.parse import urlparse
+import urllib.request
+import urllib.error
 import json
 import inspect
 import argparse, sys
@@ -98,12 +99,12 @@ class MediaSiteDownloader:
 		data = r.json()
 		target = {}
 
-		for k, m in self.mapper.iteritems():
+		for k, m in self.mapper.items():
 			try:
 				target[k] = m(data['d']['Presentation'])
-			except KeyError, e:
+			except KeyError as e:
 				target[k] = not_found
-			except IndexError, e:
+			except IndexError as e:
 				target[k] = not_found
 			#except Exception, e:
 			#	raise e
@@ -135,12 +136,12 @@ class MediaSiteDownloader:
 		actions.add_argument('--parse', dest='url_to_parse', type=str, metavar='url', help='Give an URL to fetch')
 		output_filters = {
 			'json': lambda data: print(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))), # pretty print
-			'text': lambda data: [print("%10s: %s" % (k,v)) for k,v in data.iteritems()],
+			'text': lambda data: [print("%10s: %s" % (k,v)) for k,v in data.items()],
 			'html': lambda data: print(self.format_html(data))
 		}
 
 
-		actions.add_argument('--format', dest='output_format', choices=output_filters.keys(), help="How to format output", default=output_filters.keys()[0])
+		actions.add_argument('--format', dest='output_format', choices=list(output_filters.keys()), help="How to format output", default=list(output_filters.keys())[0])
 
 		parser.parse_args(namespace=self)
 
